@@ -1,9 +1,24 @@
 version: '3.7'
 
 services:
-  mock_fridge:
+  counter:
     build:
       context: .
     volumes:
       - .:/app
     network_mode: host
+    entrypoint: python -u counter.py
+  upload:
+    build:
+      context: .
+    volumes:
+      - .:/app
+    network_mode: host
+    entrypoint: tail -f /dev/null
+  fridge:
+    build:
+      context: .
+    volumes:
+      - .:/app
+    network_mode: host
+    entrypoint: python -u main.py

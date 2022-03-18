@@ -1,10 +1,12 @@
 FROM python:3
 
-COPY main.py /app/main.py
+COPY *.py /app/
 
 WORKDIR /app
 
-RUN pip install requests sseclient-py
+RUN pip install requests sseclient-py google-cloud-storage
 
-ENTRYPOINT python -u main.py
+ENTRYPOINT python -u
+
+CMD main.py
 

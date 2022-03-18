@@ -1,0 +1,28 @@
+<body>
+    <p>counter: <span id="counter"></span></p>
+    <p>missed events: <span id="missed"></span></p>
+</body>
+
+<script>
+    let missed = 0
+    let counter = null
+
+    const url = new URL('http://localhost:83/.well-known/mercure');
+    url.searchParams.append('topic', 'test_counter');
+
+    const eventSource = new EventSource(url);
+
+    eventSource.onerror = err => {
+        console.error(counter, err);
+    }
+
+    eventSource.onmessage = e => {
+        if (counter !== null && parseInt(e.data) !== counter+1) {
+            console.error('missed a message.', counter)
+            missed++;
+        }
+        counter = parseInt(e.data);
+        document.getElementById('counter').innerText = counter;
+        document.getElementById('missed').innerText = missed;
+    }
+</script>
